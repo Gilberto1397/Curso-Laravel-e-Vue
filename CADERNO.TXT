@@ -1,0 +1,1097 @@
+CURSO DE LARAVEL
+
+2. Produtividade com Artisan Console
+    Artisan, para desenvolvimento de diversas tarefas no laravel que podem ser repetitivas
+        é possível criar os proprios comandos para rotinas especializadas
+    Visto como trocar a porta do server /   PADRÃO 8000
+    Visto o comando DOWN para por a aplicação em modo de manutenção
+        Para reverter usar a instrução UP
+
+3. Rotas (Routes) - Introdução
+    -As rotas de channels abre uma conexao Broadcast fazendo com que o servidor se encarregue de notificar o cliente
+    A rota console serve para criação de comandos personalizados no ARTISAN
+
+4. Super Gestão - Implementando as rotas principal, sobre-nos e contato
+    Usaremos as views do lado do servidor - MÉTODO CONVENCIONAL
+    Métodos: get, post, put, patch, delete, options
+    Route::get($uri, $callback) - composição: A rota e uma função de callback executada ao entrar nessa rota
+
+6. Super Gestão - Implementando os controladores / ACTIONS principal, sobre-nos e contato
+    -Controladores na prática são classes
+    -Padrão CamelCase e Controller no fim
+    -php artisan make:controller NomeController
+    -Primeiros controller feitos com funções simples de echo
+
+8. Super Gestão - Implementando as visualizações principal, sobre-nos e contato
+    -Ao vincularmos uma view ao controller através do método view() o framework sabe que deve iniciar suas buscas em
+    s->views
+        bastando indicar os diretórios e arquivos internos a esta
+
+6. Avançando com Rotas (Routes)
+
+    1. Enviando parâmetros
+        Route::get('/contato/{nome}/{idade}', function ($nome, $idade) {return "Contato para: ". $nome . $idade;});
+        manter a ordem dos parãmetros na função
+
+    2. Parâmetros opcionais e valores padrões
+        Route::get('/contato/{nome}/{idade?}', function ($nome, $idade = 20) {return "Contato para: ". $nome . $idade;});
+
+        - SINAL DE ? PASSADO JUNTO DO PARAM NA URL E VALOR OPCIONAL PASSADO DENTRO DA FUNÇÃO
+            POR NA URL PRIMEIRO OS PARÂMETROS OBRIGATÓRIOS, DEPOIS OPCIONAIS, DEPOIS NULOS
+
+    3. Tratando parâmetros de rotas com expressões regulares
+        -Iremos dar condições especificas aos parâmetros e a rota só vai ser acessada se passarmos parâmetros que se enquadrem nessas condições
+        -Essas condições são impostas através do método where() e uso de Regex
+
+    4. Super Gestão - Criando o menu de navegação
+        -php artisan route list
+
+    5. Super Gestão - Implementando as rotas login, clientes, fornecedores e produtos
+        -CRIADAS ESSAS ROTAS
+
+    6. Agrupando rotas
+        -Agrupamos as rotas através dos métodos prefix() junto do group() colocando as rotas agrupadas dentro da função de group()
+        Usado também para separar a parte que não será visível para qualquer usuário
+
+    7. Nomeando rotas
+        -Método name() - helper
+        -Para invocar a view em um link basta {{route("NomeDaRota", ["params" => $params])}}
+        -Sempre trabalhar com rotas nomeadas
+
+    8. Redirecionamento de rotas
+        -Redirecionamento de rotas através do método redirect() aplicado em Route::redirect() ou no controller ou dentro da rota
+        -O redirect() sozinho não consegue chamar a rota pelo name() e para usar o redirect() com route() é necessário usar dentro da função da rota
+            ou no controller
+
+    9. Rota de contingência (fallback)
+        -Rota criada para quando uma rota especifica não for achada
+        -Route::fallback()
+
+7. Avançando com Controladores (Controllers) e Visualizações (Views)
+
+    1. Encaminhando parâmetros da rota para o controlador
+        -encaminhamos os parâmetros sem o $
+        -Obtidos no controller apenas declarando parâmetros na função respectiva e na mesma ordem.
+        -Calculos necessitam ser entre ()
+
+    2. Encaminhando parâmetros do controlador para visualização
+        -Encaminhamos para as views através de um array assoc, mas também é possível através do método compact() que irá dentro de view()
+            Nele só precisa listar o nome dos params sem necessidade do $
+            O método with(), view()->with("p1", $p2)  irá mandar um param de cada vez através do nome da chave que será usada na view e o param que dará valor a essa chave
+
+    3. Sintaxe Blade
+        -Motor de renderização Blade
+
+    4. Blade - Incluíndo comentários e blocos PHP puros
+        -Vimos a respeito do uso de bloco de código php puro dentro do blade através do @php @endphp
+        -No blade {{}} é sinônimo de <?= ?>
+        {{-- COMENTÁRIO DO BLADE --}}
+
+        POSSIBILITA DEIXAR TODO O HTML DINÂMICO
+
+    6. Blade - @if@else
+        -Uso da diretiva @if para condicional no blade. @if, @else, @elseif, @endif
+
+    7. Blade - @unless
+        -Enquanto o @if executa no true, o @unless irá executar no false
+
+    8. Blade - @isset
+        -Serve para verificar se variáveis ou índices de arrays estão ou não definidos
+        -Com o @isset irá mostrar uma bloco da view de acordo com a variável. Se ela estiver setada irá mostrar, se estiver nula nao
+
+    9. Blade - @empty
+        -O empty irá verificar se a variável ou índice de array encontra-se vazio
+        '', 0, 0.0, '0', null, false, array[], $var
+
+    10. Extra - Operador condicional ternário
+        (condição ? SeTru : Sefalse);
+
+    11. Blade - Operador condicional de valor default ()
+        - Semelhante ao isset - (Variável ?? ValorPadrão) - Se a variável estiver setada, seu valor será esse, caso contrário irá usar o ValorPadrao definido
+
+
+    12. Blade - @switchcase
+        -
+
+    13. Blade - @for
+        -Foi mostrado o exemplo do uso do laço for junto do isset, onde ao notar que o indice do array não estava setado o laço parou
+
+    14. Blade - @while
+        -
+
+    15. Blade - @foreach
+        -@foreach($fornecedores as $indice => $fornecedor) $indice => é o laço acessando cada índice / $fornecedor => é o laço ja dentro de cada indice
+
+    16. Blade - @forelse
+        -É como o for, porém ao perceber que a variável que entrará no laço está vazia ele desvia o fluxo para o @empty
+
+    17. Blade - Escapando a tag de impressão do Blade
+        -Forma de evitar a interpretação por parte do double mustache {{}} Basta colocar @ ao lado @{{$teste}}
+
+    18. Blade - Variável loop
+        -objeto que nos fornece atributos uteis para usar na interação do laço
+            Podemos coloca-lo dentro da diretiva @dd para visualizar seus atributos
+
+
+    19. Super Gestão - Melhorando o visual
+        -Copiados novas views
+
+
+    20. O que são assets
+        -Itens que serão complementares aos arquivos HTML - CSS, imagens, sons, etc...
+        -IMPORTANTE COLOCAR OS ASSETS NA PASTA PUBLIC PARA QUE POSSAM SER CARREGADOS PELA INTERNET
+        -Ativos do Projeto / pertences*
+
+    21. Adicionando assets as views (helper asset)
+        -O helper asset("") mira na pasta public devido as variaveis de ambiente, que é a forma mais apropriada de se incluir assets em nossas views no laravel
+        TODO a pasta raiz do helper asset() é configurado através das vars de ambiente
+
+    22. Adicionando arquivos CSS externos as páginas web com asset()
+        -Css fica na public
+        - <link rel="stylesheet" href="{{asset("css/estilo_basico.css")}}">
+
+    23. Blade - Template com @extends, @section e @yield parte 1
+        -Criação e utilização de templates
+        Criamos o layout basico.blade.php
+        @extends: Extende o layout básico
+        @section: Delimita a seção que será enviada para o layout básico
+        @yield: Onde será recebido a template que precisa ser renderizada - Semelhante a div APP do Vue.js
+
+        Tudo será renderizado, o que estiver dentro da @section é renderizado depois do que não estiver
+
+    24. Blade - Template com @extends, @section e @yield parte 2
+        -através do @section() vimos que é possível mandar informações específicas como um <title>
+            @section("title" "titulo") -> variáveis passadas do controller
+            -No layout principal irá chamar essas sections também yield. @yield("titulo")
+
+    25. Blade - Realizando include de views (@include) - Semelhante a componentização do Vue.js
+        - Enquanto o @section() pega o arquivo e envia para o @extends, o @include() puxa um arquivo para dentro de outro
+        -Separamos a navbar dos templates e o incluimos no basico.blade com @include() para diminuir código e aparecer em todas as telas
+
+    26. Super Gestão - Enviando o formulário de contato
+        -Enviado os dados do form de contato e pegando eles via $_GET
+
+
+    27. Enviando o formulário de contato via POST
+        -Não esquecer do @csrf nos form via POST
+
+    28. Entendendo o token @csrf
+        -
+
+    29. Blade - Componentes (@component(), @endcomponent)
+        -Funciona como o @include(), porém pode passar parâmetros
+
+    30. Blade - Enviando parâmetros para componentes
+        -Podemos criar tags html entre dentro da diretiva @component() @endcomponent. No arquivo raiz desse componente precisamos apenas chamar
+            {{$slot}} que irá trazer a informação para o componente raiz, utilizando essa informação no layout em que esse componente estiver sendo usado
+                NÃO É NECESSÁRIO TER TAGS EM TODOS OS LUGARES ONDE O COMPONENTE FOR CHAMADO
+                    ÚTIL PARA MOSTRAR RESPOSTAS DAS ROTINAS
+
+            *Semelhando ao props: do Vue.js
+        É possível enviar parâmetro via array assoc para o componente raiz - Enviar via array assoc pode causar erro caso a variavel não seja enviada em algum template que esteja consumindo o componente
+
+8. Models, Migrations, Seeders, Factories, Banco de Dados, Tinker e Eloquent ORM
+        - 1. Criando o Model SiteContato
+            -Classes que representam os objetos da nossa aplicação
+                Os nomes devem ser no singular
+                php artisan make:model SiteContato -m / o -m irá automaticamente criar uma migration com o nome no plural
+
+    2. Implementando a migration SiteContato
+        -Forma de construir e reconstruir tabelas no DB via PHP
+        -Criação da migration de formulário de contato
+        -Normalmente o nome das migrations será no PLURAL
+        -Na documentação na parte de migrations podemos ver os tipos de colunas para o tipo de dado que usaremos na nossa migration
+
+    4. Configurando o BD SQLite e executando as migrations
+        Mostrado como criar e vincular o projeto a um DB sqlite
+        Na pasta config existem diversos arquivos explicando configurações e sobre as variáveis de ambiente
+        um deles é o database.php, que controla as variaveis de ambiente do DB através do .env
+        nesse config também é mostrado como se conectar a diferentes tipos de DB no Laravel
+        Para o sqlite apenas adicionamos a informação de driver, e criamos o arquivo database.sqlite DENTRO DA PASTA DATABASE
+            De acordo com o indice "database" das configurações de sqlite na pasta config
+
+    9-criando a base de dados e configurando a conexão com o DB SQL
+        no Terminal: php -r "var_dump(extension_loaded('pdo_mysql'));"   PARA VER SE ESTÁ ATIVADO NO PHP.INI
+
+    10. Migration - Executando as migrações
+        - php artisan migrate
+
+    11. Migration - Criando e executando a migration fornecedores
+        -Criação da model Fornecedor e da migration Fornecedores
+        -Ao definirmos a migration junto no model, o "s" será adicionado automaticamente
+
+        php artisan make:migration create_fornecedores_table
+
+        adicionando migration manualmente o laravel nao coloca S
+
+        NO BANCO DE DADOS AO FAZERMOS O MIGRATE É CRIADA UMA TABELA migrations, LA FICAM SALVAS AS TABELAS QUE FORAM LEVANTADAS E QUANDO ISSO OCORREU!
+            FAZENDO COM QUE CADA COMANDO migrate MIGRE APENAS AS TABELAS QUE NÃO FORAM LEVANTADAS
+            NESSA TABELA HÁ A COLUNA BATCH, QUE É A VEZ EM QUE AQUELA TABELA FOI LEVANTADA, NO 1° MIGRATE, NO 2° MIGRATE, ETC
+
+    12. Migration - Adicionando campos a uma tabela EXISTENTE
+        -CRIANDO NOVAS COLUNAS A UMA TABELA JA EXISTENTE - alter_fornecedores_novas_colunas
+            php artisan make:migration alter_NomeTabela
+
+            Na migration iremos usar o método table / Schema::table / responsável por selecionar uma tabela já criada
+
+    13. Migration - Métodos up e down
+        -O método up sobe a migration da mais antiga pra mais atual
+
+        -O método down dropa a migration da mais nova pra mais velha
+            Dentro do Schema
+            $table->dropColumn("email");
+            //$table->dropColumn(["email", "uf"]);
+
+            Direto no Schema
+            Schema::dropIfExists('fornecedores');
+            //Schema::drop('fornecedores'); DROP SEM TESTE
+
+        na migration a parte do down nas tabelas de alter ficam:  $table->dropColumn("uf");
+            Podemos passar as colunas via array também  $table->dropColumn(["uf", "email"]);
+
+    Para a reversão: Mais atual para a mais antiga
+        para down - php artisan migrate:rollback
+        para down - php artisan migrate:rollback --step=2       /   cada step/passo equivale ao batch da tabela migrations
+
+    14. Migration - Modificadores Nullable e Default nas colunas do DB
+        -Nullable permiti valores nulos
+        -Default irá usar um valor padrão caso nenhum seja passado
+        -Criação da migration produtos
+        -Utilizado valores Nullable e o Default na tabela
+
+    TODO - QUANDO FORMOS USAR COLUNAS COM N° DECIMAIS DEVEMOS USAR O TYPE CORRETO COM A EXPLICITAÇÃO DE CASAS DECIMAIS
+
+    OS RELACIONAMENTOS SEMPRE IRÃO ENVOLVER A QUESTÃO DE ENVIAR O ID (FK) DE UMA TABELA, PARA OUTRA TABELA
+    1 PRA 1, VAI ENVIAR O ID DE UMA TABELA PARA OUTRA, ESSA OUTRA TABELA TERÁ UMA COLUNA ESPECIAL PARA ESSE ID (FK) E POR CAUSA DO MÉTODO UNIQUE, ESSE ID NÃO PODERÁ SE REPETIR
+        O QUE COMPLETA A IDEIA DE 1 PARA 1
+
+    1 PARA VÁRIOS, É A MESMA COISA, PORÉM PERMITI A REPETIÇÃO DO ID(FK) RECEBIDO NA COLUNA QUE RECEBERÁ O FK
+
+    MANY PARA MANY, REQUER UMA 3° TABELA PARA MAIOR CONTROLE DE 2 OU MAIS FKs. NESSA 3° TABELA É QUE FICARAM DE FATO ARMAZENADAS AS RELAÇÕES.
+
+    AS QUERYS SERÃO FEITAS MUITAS VEZES VIA BACKEND POR EXEMPLO VIA MIGRATION, MAS PARA DE FATO CRIARMOS UMA RELAÇÃO DEVEMOS USAR O MÉTODO CORRETO SEJA VIA QUERY OU BACKEND,
+        POIS O MYSQL IRÁ DE FATO FAZER AS MUDANÇAS NECESSÁRIAS PARA DEPOIS CONSEGUIR FILTRAR DA MANEIRA CORRETA
+
+    15. Migration - Adicionando chaves estrangeiras (Relacionamento um para um)
+        -1 PRODUTO SÓ PODE TER UM PRODUTO_DETALHE
+        -1 PRODUTO_DETALHE SÓ PODE SER DE 1 UM PRODUTO
+        -Criação da tabela produto_detalhes
+        -A tabela produtos terá apenas um produto_detalhes / relação 1 pra 1
+        -A chave estrangeira da tabela mais forte, deve viajar para a tabela mais fraca. Quem receberá essa chave será a coluna produto_id na tabela produto_detalhes
+        -A chave estrangeira segue o padrão de o singular do nome da tabela mais forte + o nome da coluna que guarda a chave primária da tabela ex: produto_id
+            Padrão de detecção do Laravel
+            A chave estrangeira deve ser do mesmo tipo da chave primária recebida
+                unsigned - não aceita valores negativos
+                signed - aceita valores negativos
+
+        $table->foreign('produto_id')->references('id')->on('produtos'); // criando a relação com a FK - nome da fk - coluna que irá pegar - da tabela tal
+
+        $table->unique('produto_id'); Pra não deixar cadastrar um produto em vários detalhes
+
+                Verificar migration create_produtos_table PARA MAIORES INFORMAÇÕES acessar esse arquivo
+
+    16. Migration - Adicionando chaves estrangeiras (Relacionamento um para muitos) // Mais comum visto no dia a dia
+        -Criada uma nova tabela de unidades para medidas e peso
+
+        -A MESMA UNIDADE PODE FAZER PARTE DE DIFERENTES PRODUTOS
+        -A MESMA UNIDADE PODE FAZER PARTE DE DIFERENTES PRODUTO_DETALHES
+        -A PRINCIPAL DIFERENÇA DE 1 PRA 1 É QUE 1 PRA MUITOS NÃO HAVERÁ O MÉTODO UNIQUE()
+        -AQUI A CHAVE ESTRANGEIRA DE CARDINALIDADE "UM" IRÁ PARA AS TABELAS DE CARDINALIDADE "ANY"
+        -A CHAVE PRIMÁRIA DE UNIDADES IRÁ VIAJAR PARA TODAS AS TABELAS EM QUE A MESMA UNIDADE SEJA USADA POR MAIS DE UM ITEM NA TABELA
+            EX: EU POSSO TER VARIOS CARROS E MOTOS - A FK PODERIA SER MEU NOME
+
+        NÃO ESQUECENDO DO PADRÃO DE ESCRITA
+
+        FOI CRIADA A RELAÇÃO E A CRIAÇÃO DAS FK. A MESMA UNIDADE PODE SE REPETIR EM VÁRIOS PRODUTOS E EM VÁRIOS PRODUTOS_DETALHES
+        Verificar SEGUIR A ORDEM DE DROP PASSADA NESTA AULA
+
+        Para o drop, primeiro desfazemos a relação da tabela (criação da FK) para depois remover a coluna - FORMA DE FAZER NO ARQUIVO create_unidades_table
+
+    17. Migration - Adicionando chaves estrangeiras (Relacionamento muitos para muitos)
+        -SEMPRE IRÁ ENVOLVER 3 TABELAS
+        -NORMALMENTE É 2 RELAÇÕES DE 1 PARA MUITOS COM A 3° TABELA QUE IRÁ ARMAZENAR AS 2 FK
+        -OU SEJA AO CRIARMOS UM PRODUTO PASSAREMOS ID DESSE PRODUTO JUNTO DO ID DE UMA FILIAL, INFORMAÇÕES ESSAS QUE NOS AJUDARÃO A TRABALHAR COM FILTRO
+        -PARA MELHORAR TIRAMOS ESTOQUE E PREÇO DA TABELA PRODUTOS E COLOCAMOS NA TABELA DE MANY TO MANY PARA LEVAR EM CONSIDERAÇÃO OS DADOS DE CADA FILIAL
+
+        -Nessa aula criou-se a tabela filiais, produtos_filiais, fez-se uma troca de colunas entre produtos e produtos_filiais
+            criou-se as FK de produtos_filiais e feito o método Down
+
+    18. Migration - Modificador After
+        -método para ser usado na migration que possibilita a criação de uma coluna, após outra especificadamente
+
+    19. Migration - Comandos Status, Reset, Refresh e Fresh
+        -Status - Listagem das migrations executadas ou não
+        -Reset - Vai executar o rollback de todas as migratios por isso é importante cuidar os métodos down - mais nova para velha
+        -Refresh - Executa o método down e depois o método up automaticamente -
+        -Fresh - Dropa todo o DB e depois executa o migrate
+
+    20. Entendendo o Eloquent ORM
+        -Recursos pré existentes para interação com DB
+
+        Data Mapper
+        Active Record
+
+    21. Tinker - Introdução
+        -Console interativo que possibita acesso as classes do projeto através da linha de comando
+            -php artisan tinker
+
+    22. Eloquent - Inserindo registros - save()
+        -Inserido primeiro registro via tinker na tabela SiteContato - $contato = new \App\SiteContato();
+            lembrando que a coluna id é AI e as de timestamps sao responsabilidade do laravel
+            Iremos preencher as colunas nome, telefone, email, motivo_contato, mensagem
+
+        -Método de model getAttributes() Pega os atributos de um obj
+        -Também fizemos o save()
+
+    TODO testar enviar faltando algum dado em uma coluna sem Nullable = Erro
+
+    24. Eloquent - Inserindo registros com Create e $Fillable - create()
+            -OS MODELS SÃO APENAS UMA FORMA DO LARAVEL ENCONTRAR A TABELA EM QUE PRECISA SALVAR OS DADOS E OS atributos
+                -NÃO HÁ DEPENDÊNCIA DIRETA COM AS MIGRATIONS
+            -O LARAVEL IRÁ BUSCAR O NOME DA TABELA COMO O NOME DO MODEL NO PLURAL
+                Verificar QUANDO O NOME NO PLURAL ESTIVER DANDO ERRO DEVEMOS USAR O SEGUINTE CÓDIGO NO MODEL
+                     protected $table = 'fornecedores'; / PROPRIEDADE $TABLE COM O RESPECTIVO NOME DA TABELA
+
+        -Podemos passar os atributos a serem salvos no DB todos de uma vez em um array assoc sem a necessidade de passar um a um e depois chamr o método save()
+            Iremos passar o array assoc dentro do método estático create([])
+                mas para isso precisamos criar outra propriedade de model chamada $Fillable preenchida com um array dos atributos que serão salvos
+                esta propriedade que irá cuidar para que o processo de certo via create([])
+                protected $fillable = ["atributos"]
+
+        Usado o tinker nesta aula usando o método estático create()
+            via tinker = \App\Fornecedor::create([])
+
+    TODO formas de uso das classes no tinker //
+        $contato = new \App\SiteContato();
+        \App\Fornecedor::
+        use \App\Fornecedor - deixa a classe disponível para ser recuperada sem passar o namespace completo
+            $fornecedores = Fornecedor::all()
+
+    25. Eloquent - Selecionando registros com all()
+        -Dando select em fornecedores
+        -Retornamos uma coleção
+
+        Feito o foreach dentro do Tinker
+
+    26. Eloquent - Selecionando registros com find()
+        -Semelhante ao all(), porém o find() espera por parâmetro uma ou várias PRIMARY KEY que serão buscadas no DB
+            Para buscar várias usaremos um array find([])
+
+    27. Eloquent - Selecionando registros com where()->get()
+        -Monta um build com where e retorna um objeto - precisa de 3 parâmetros - where("nome da coluna", "sinal de comparação SQL", "valor" )
+        Principais sinais: <, >, <=, >=, <>, like, ==     / /     % % -> o PORCENTAGEM INDICA QUE PODE HAVER ALGO ANTES OU APÓS DEPENDENDO DE ONDE FOREM COLOCADOS / O LIKE necessita que as % sejam usadas juntas, pois se n irá buscar apenas o que for passado no param e não dentro de uma string maior
+        -Utilizado com outros métodos também
+        PRECISA DO GET() NO FIM / where()->get();
+        SE USARMOS O WHERE APENAS COM O PRIMEIRO E ULTIMO PARAM O MÉTODO ENTENDERÁ QUE É PARA COMPARAR VIA IGUALDADE ==
+
+    28. Eloquent - Selecionando registros com whereIn() e whereNotIn() - PODE SER USADO COM N°S, DATAS, STRINGS
+        -o whereIn("coluna a buscar", [params])->get();   / Irá buscar na coluna todos os dados iguais aos passados nos params- busca por IGUALDADE
+        - O whereNotIn("coluna a buscar", [params])->get(); / irá buscar todos valores na coluna menos os passados nos params
+
+    29. Eloquent - Selecionando registros com whereBetween() e whereNotBetween() - PODE SER USADO COM N°S E DATA
+        -whereBetween("NomeColuna", [Intervalo]) - Retorna os valores dentro do INTERVALO passado
+        -whereNotBetween("NomeColuna", [Intervalo]) - retorna valores que não estejam dentro do intervalo passado
+
+    30. Eloquent - Selecionando registros com dois ou mais Wheres - Aqui todas as condições precisam ser atendidas
+        -Conectaremos 2 ou mais clausulas where() através do AND do sql
+        ex: where("nome", "<>", "Fernando")->whereIn("motivo_contato", [1,2])->whereBetween('created_at', ['2020-08-01 00:00:00', '2020-08-31 23:59:59'])->get();
+            Busca todos os nomes diferentes de Fernando que tenham motivo_contato 1 e 2, mas que a data de envio seja entre a data informada
+        A conexão AND se da bastando chamar outro método where();
+
+    31. Eloquent - Selecionando registros com orWhere() - Operador lógico OR - ao menos uma condição precisa ser atendida
+        -orWhere()
+        -podemos utilizar o or em todas as operações de comparação vistas até aqui
+        -orwhereIn(), orBetween() ...
+        -Irá mostrar os dados de todas as sentenças que tiverem que resultado
+
+    32. Eloquent - Selecionando registros com whereNull() e whereNotNull()
+        -  whereNull()   Retorna linhas que aprensentam valores null em uma coluna
+        - whereNotNull() Retorna linhas que não aprensentam valores null em uma coluna
+            Ex: whereNull("updated_at)->get();
+
+    33. Eloquent - Selecionando registros com base em parâmetros do tipo data e hora
+        -whereDate()
+        -whereTime()
+        -whereMonth()
+        -whereYear()
+        -whereDay()
+
+        Verificar Diversos Filtros para data e hora para serem utilizados em buscas por datas e horas
+
+    34. Eloquent - Selecionando registros com whereColumn()
+        -Com esse método iremos buscar registros com base na condicional entre colunas
+            Por ex: buscar registros que possuam a coluna de created_at e updated_at com o mesmo valor
+        -Esse método aceita 3 params, sendo o segundo um do tipo condicional SQL - whereColumn("coluna", "sinalSQL", "coluna2");
+
+    Verificar REVER AULA 35. Eloquent - Selecionando registros aplicando precedência em operações lógicas
+        - Forma de montar a lógica de certas querys
+        - Cuidar nos momentos em que tenhamos de fazer querys com subgrupos e que envolvam OR junto de AND
+            Para não obtermos resultados a mais dos esperados
+
+            $s=SiteContato::where(function($query){$query->where("nome","João")->orWhere("nome","Ana"); })->where(function($query){$query->whereIn("motivo_contato",[1,2])->orWhereBetween("id",[4,6]); })->get()
+
+
+    36. Eloquent - Ordenando registros
+        -Feita com base na coluna, de modo asc ou desc, além de poder combinar diversas ordenações
+        -Feito através da função orderBy() - Traz todos os resultados como all() - sozinho na query será como all()
+        -orderBy("nomeColuna", "desc-asc") - POR PADRÃO É ASC, PODENDO OMITIR ESSE PARAM
+        Podemos montar toda uma query e no fim escolhermos a ordenação de acordo com a coluna que quisermos
+            Ex:     whereIn("id",[3,6])->orderBy("nome")->get()
+
+            Podemos passar mais de um orderBy() para situações em que teremos valores iguais para diferentes objetos
+                orderBy("motivo_contato")->orderBy("nome")->get() / Nesse caso teremos diferentes pessoas com mesmo motivo_contato e entao ordenamos
+                também pelo nome
+
+    37. Eloquent - Introdução as Collections
+        - Inicio do uso de métodos para Collections / Objetos advindos das querys de filtragem
+        -MÉTODOS DE COLEÇÃO NÃO SE APLICAM A ARRAY
+
+    38. Eloquent - Collection first, last e reverse
+        -first() - Retorna apenas o primeiro registro da coleção de obj
+        -last() - Retorna apenas o último registro da coleção de obj
+        -reverse() - Inverte a ordem dos elementos dentro do array
+
+    39. Eloquent - Collection toArray e toJson
+        -toArray() - Converte para array - MÉTODOS DE COLEÇÃO NÃO SE APLICAM A ARRAY
+        toJson() - Converte para Json
+
+    40. Eloquent - Collection pluck
+        -Verificar Este método permiti puxar a Collection, mas apenas as informações de uma chave específica
+            Ex: Podemos trazer apenas todos os emails da Collection
+            É possível dar um indice para cada valor obtido, através de um segundo parâmetro que será outra chave da Collection
+            Ex: pluck("Chave_desejada", "Chave_para_filtro");
+
+    41. Eloquent - Um pouco mais sobre os métodos nativos dos objetos Collection
+        -Verificar https://laravel.com/docs/7.x/collections
+
+    42. Eloquent - Atualizando registros (save) - save()
+        -Possível repassar novos atributos e atualizar com save()
+        -Não é necessário passar todos os atributos, pois antes que seja dado o save() o laravel irá guardar quem são os atributos atuais e os novos, em forma de array, podemos abrir o objeto com dd ou print_r para ver esses dados
+
+    43. Eloquent - Atualizando registros (fill e save)
+        -Forma mais prática de atualizar a partir de um array assoc
+        -Também precisa do  protected $fillable = ["atributos"] como no create([]);
+        -Também não precisa passar todos os atributos como no método anterior  //  O CREATE() PRECISA
+        Verificar  protected $fillable = ["atributos"]
+        Necessita do save() para persistência
+
+    44. Eloquent - Atualizando registros (where e update)
+        -Método utilizado para ao mesmo tempo que fazemos um filtro passamos junto uma atualização
+Ex: whereIn("id",[1,2])->update(["COLUNA" => "VALOR"]) / Neste caso os 2 objetos serão atualizados com as mesmas informações
+
+    45. Eloquent - Deletando registros (delete e destroy)
+        -delete() - devemos primeiro chegar no objeto desejado / find(1)->delete();
+        -destroy() - Irá além de apagar também buscar o id passado como param / destroy(5) - apaga o item de id 5 da tabela em questão(model em questão)
+            Podemos usar collections e arrays de nºs para o destroy(), ou apenas separar os nºs por vírgula
+
+    46. Eloquent - Deletando registros com SoftDelete
+        -Trazer para o contexto /  use Illuminate\Database\Eloquent\SoftDeletes;
+        -Através do Trait SoftDeletes
+            Use SoftDeletes;
+        - Ter a coluna de deleted_at
+        -E ao usarmos o comando de delete ou destroy, irá apenas mover para o deleted_at
+        Filtros não irão mostrar os que possuirem SoftDelete
+        -Para excluir de fato é necessário utilizar forceDelete()
+
+    47. Eloquent - Selecionando e restaurando registros deletados com SoftDelete
+        -Para selecionar esses registros de alguma forma é necessário usar o método withTrash() / withTrash()->all()
+        -onlyTrash() / onlyTrash()->all() / irá trazer apenas os registros com softDelete
+
+        Para desfazer o softDelete é necessário obter o registro e chamar o método restore() que irá colocar valor null na coluna deleted_at deste item
+
+    48. Seeders parte 1
+        -Primeiro criamos o seed  /  php artisan make:seed NomeSeed     /   Sugesão de nome é ser composto pelo nome da tabela que irá popular + Seeder / FornecedorSeeder
+        -Necessário dar "use" do model no seeder, da tabela que iremos popular
+        -Criar os métodos que irão criar itens no DB (VISTO 3 FORMAS DIFERENTES)
+        -no arquivo DatabaseSeeder.php usar o método presente apenas para chamar o seed Criando / NÃO PRECISA DAR USE NOS MODELS
+        -Executar os seeds  /   php artisan db:seed
+
+
+    50. Factorys com Faker
+        -Devemos ter o seed da model que queremos
+        -Criar a factory - php artisan make:factory NomeFactory / Nome do model + Factory
+        -Preencher a factory com os atributos de model utilizando o faker
+        -chamar a factory no seed respectivo através do método factory()    /   factory(SiteContato::class, 100)->create();
+        -Colocar a seed no DatabaseSeeder()
+
+        TAMBÉM FOI VISTO COMO EXECUTAR SEEDERS ESPECÍFICAS
+
+        Verificar CUIDAR PARA NÃO REPETIR EXECUÇÃO DE SEEDS
+
+9. Trabalhando com formulários
+    1. Entendendo o objeto Request
+        -O Laravel por padrão capta o objeto Request
+
+        dd() tipo vardump() + die()
+        Usado o dd() para recuperar todo o obj Request
+        Para recuperar apenas os params enviados via form, abriremos o obj com o método all() / $r->all();
+
+        Também é possível através do método input() /   $r->input("nameInput"); /   trazendo cada informação especificadamente
+
+        e com o método get() é possível pegar parâmetros também / $r->get("inputName")
+
+        Método get() recupera atributos de uma requisição
+
+        Podemos observar os dados enviados via form na aba network do dev tools, estará coo form-data
+
+        No refresh é reenviada a requisição anterior
+
+    2. Gravando os dados do formulário no banco de dados
+        -Dar use no Model em questão
+        -Foi visto o save através da atribuição unitária de cada atributo do model, passando um a um, pegando o requesto com o método input()
+        -Visto com os métodos fill() e create() que receberão o request->all() e salvarão automaticamente
+        -fill() apenas preenche os atributos do obj do model, mas precisa do save()
+
+        -NORMALMENTE O CREATE() IRÁ EXIGIR QUE AO MENOS AS COLUNAS DA TABELA TENHAM VALOR DEFAULT, O FILL() APENAS NULLABLE() BASTA
+
+        - O MÉTODO QUE IREMOS UTILIZAR IRÁ DEPENDER DO TRATAMENTO PRÉVIO QUE TEREMOS QUE FAZER NAS INFORMAÇÕES
+
+    3. Validação de campos obrigatórios (required)
+        -Criado o método salvar() no ContatoController
+            Ele que irá receber o Request e fazer o trabalho de salvar
+        -Visto como fazer o validate de required através do método validate()
+        -Visto sobre a variável de front end $errors - Responsável por aprensentar os erros ocorridos  inclusive os do VALIDATE
+
+    O VALIDATE É INTELIGENTE O BASTANTE PARA AO NÃO CONSEGUIR VALIDAR ALGUMA INFORMAÇÃO ELE IRÁ RETORNAR AUTOMATICAMENTE PARA A ROTA ANTERIOR, COMBINANDO BEM
+        COM A VARIÁVEL $errors
+
+    O VALIDATE CONSEGUE PEGAR O NOME DOS INPUTS DIRETAMENTE DA REQUEST PARA VALIDAR, BASTA USAR SEUS NOMES COMO AS CHAVES DO PARAMS
+
+    $r->validate([
+        "nameDoInput" => "validação",
+    ])
+
+    4. Validação de quantidades mínimas e máximas de caracteres (min e max)
+        -Para usarmos várias validações em conjunto basta usar com o pipe |     - required|min:3|max:40
+        No caso do min e max, ainda é possível especificar as quantidades na mesma string min:3
+
+    5. Repopulando o formulário (Request Old Input) parte 1
+        -Visto como reescrever os dados do formulário quando acontece um novo request devido dado inválido no validate
+        -Para recuperarmos esses dados devemos usar o método old("inputName") dentro do value dos inputs / isso irá verificar se existe algum dado antigo para então mostrar
+            old("nome");
+            Usado Ternário para o textarea
+
+    6. Repopulando o formulário (Request Old Input) parte 2
+        -informação repopulada no input <Select> utilizando informações dinâmicas do DB
+        -NA PRÁTICA OS DADOS DE UM SELECTED SÃO RECUPERADOS DO DB
+
+        TODO -Foi visto como usar o old em um select estático e um select recebendo informações do DB
+
+    7. Ajustando o formulário de contato na rota principal
+       Verificar - Erro causado devido a falta de informações em um componente que espera um array [motivo_contato] de 2 controladores mas só recebe de 1 - situação causada arrumanda
+
+    8. Refactoring do projeto Super Gestão parte 1
+        -Criada a model e migration de motivos_contatos /   EVITAR MANTER DADOS ESTÁTICOS SEMPRE PREFERINDO USO DE DB PRINCIPALMENTE PARA CASOS EM QUE TENHAMOS QUE AUMENTAR O CÓDIGO DE UM DADO ESTÁTICO, POR EXEMPLO UM SELECT
+
+        -É POSSÍVEL APLICAR QUERYS DIRETO NA MIGRATION
+        -Tabela populada com seed
+        -Enviado o objeto do model de motivo_contatos para o componente de form
+        -Sempre bom verificar o objeto
+
+    9. Refactoring do projeto Super Gestão parte 2
+        -Faremos uma relação entre a tabela site_contatos e motivo_contatos devido a coluna de motivo_contato estar presente em ambos
+        -Iremos criar uma tabela motivo_contatos_id em site_contatos, migrar os dados de motivo_contato para la, aplicar uma fk em motivo_contatos_id apontando
+            para motivo_contato da tabela motivo_contatos, por ultimo excluir motivo_contato de site_contatos
+
+        -Utilizado DB::statement na migration para inserção de query sql direto na migration
+
+        -Feito o processo de criação das colunas e aplicação das FK e do método down
+        Verificar    NO DOWN AS FK TEM UMA SINTAXE ESPECÍFICA PARA DESFAZER
+
+        -Colunas vinculadas e criada relação de 1 pra many
+
+    10. Validação de campos e-mail
+        -Vimos como vailidar um campo email em Validate([])
+        https://laravel.com/docs/7.x/validation#rule-required
+
+    11. Persistindo dados e redirecionando a rota
+        -Alterado os nomes nas models e tabelas para funcionar a nova tabela
+        -Aplicado o método create() no controller SiteContato para persistÊncia dos dados
+        -Redirecionado para a index
+
+    12. Validação de campos únicos (unique)
+        -Validação unique: Utilizada para verificar se não existe informação igual a enviada para o DB
+        unique:"nome_da_tabela"
+
+    13. Customizando a apresentação dos erros de validação parte 1
+        -Visto mais a respeito da variável $errors e os métodos que ela carrega
+        -Visto o método any() / $errors->any() / Verifica se existe algum erro - Ajuda dentro de if
+    Verificar   -Visto como mostrar diretamente cada mensagem de erro / $errors->all()  /   recupera apenas as mensagens de erro
+
+    14. Customizando a apresentação dos erros de validação parte 2
+        -   Manipulando as mensagens da variável $errors, individualmente apresentando a mensagem
+                em baixo de cada campo input
+            -Usaremos o método has("nameInput") que irá identificar a presença de erros para aquele input
+            Usado @if e o método ternário
+            Método first() -> utilizado para pegar o primeiro erro do campo referido    /   first("NameInput")
+
+    15. Customizando as mensagens de feedback de validação
+        -Customizando as mensagens de erro para que não mostrem as mensagens padrão
+        -Através do método validate([]) além de aplicar as verificações, também pode customizar as mensagens de erro
+            Para isso passamos um segundo param de array que fará essa customização
+            Visto como fazer de forma genérica para todos e até mesmo com especificar com :attribute
+
+//Verificar revisar a partir daqui
+10. Middlewares
+    1. Introdução aos Middlewares
+        -Funcionam como intermediador de comunicação
+        -Usado inicialmente como uma forma de reforma para sistemas legados servindo como uma ligação entre novos sitemas e sistemas legados
+        -Trabalha tanto no request quanto na response
+        -Captura as requisições antes que cheguem no controller
+        Ex de uso no request: Verifica autenticação, habilita rotas de acordo com o perfil do user, bloquear IPs, registrar acessos
+        No response: Podemos configurar o cabeçalho CORS
+
+    2. Criando meu primeiro middleware
+        -Criado o middleware (LogAcessoMiddleware)   /   php artisan make:middleware NomeMiddleware
+        -Aplicado a rota    /   pode ser aplicado no inicio da rota ja que a informação vai passar primeiro nele
+
+        MÉTODO RESPONSE() - FORMA UM OBJ DE RESPOSTA, UM RESPONSE HTTP
+
+    3. Criando o model LogAcesso e sua migration
+        -Criada a model LogAcesso e a migration log_acessos
+        -setadas as variaveis $table e $fillable
+        -criado o método no Middlewares
+        -Obtido o IP usado para acesso e a rota que foi acessada via obj $request / Funciona com dd()
+
+        $ip = $request->server->get("REMOTE_ADDR"); // Foi necessário o método get() para pegar esse parâmetro
+        $rota = $request->getRequestUri(); // Método usado devido para obter esse parâmetro
+
+        Com o objeto $request podemos visulizar diversos parâmetros que podem ser utilizados na aplicação
+
+    4. Implementando middlewares no método construtor dos controllers
+        -Chamado o middleware dentro do controller através do método __construct() em SobreNosController
+        -Necessita dar use no Middleware em questão
+            use App\Http\Middleware\LogAcessoMiddleware;
+
+        public function __construct()
+    {
+        $this->middleware(LogAcessoMiddleware::class);
+    }
+
+    5. Implementando um middleware para todas as rotas
+        -o arquivo app\Http\Kernel.php / é responsável pelo gerenciamento dos middlewares
+            Lá podemos aplicar os middlewares que serão aplicados a todas as rotas web e api
+                Útil quando queremos aplicar um middleware em todas as rotas sem ter que aplicar um a um na rota ou controller
+
+    6. Apelidando middlewares
+        -Apelidamos um middlware no arquivo kernel na parte de protected $routeMiddleware = [] Passando o caminho do middleware
+            e uma chave que será seu apelido.
+            A partir disso podemos deixar de usar middleware(LogAcessoMiddleware::class) e no controller o __construct(), para usar apenas o apelido
+
+        -Sem necessidade de dar use no middleware, caso seja usdo o __construct
+
+                middleware('Apelido do middleware');
+
+    7. Encadeamento de middlewares (criando um middleware de autenticação)
+        -Podemos usar middleware após middleware, basta acrescentr ou globalmente no kernel, ou ir chamando dentro do mesmo método middleware()
+        -É necessário passar a requisição adiante return $next($request);
+        o método next() empurra a requisição para o próximo middleware até o núcleo da aplicação
+
+    9. Passando parâmetros para o middleware
+        -Para passar prâmetros em middlewares setados nas rotas ou controllers, bsta usar :
+        middleware("Apelido:param1, param2");   E LEMBRAR DE APLICAR OS PARAMS NO CONTROLLER DO DEVIDO MIDDLEWARE
+
+    10. Manipulando a resposta de uma requisição via middleware
+        - o middleware irá sempre mandar para frente a requisição a menos que não enviemos o $next via return
+        -A resposta sempre irá passar pelo middleware, onde podemos armazenar o $next($request), manipular os atributos dessa resposta como o status code, e então dar return nessa variável.
+
+        Ou seja, quando não queremos influenciar a resposta apenas usamos return $next($request), caso contrário iremos armaze-la e passar essa variável no return
+
+11. Autenticação de usuários (revisando e praticando os assuntos abordados)
+
+    1. Implementando o formulário de Login
+            -Criada a view do form
+            -Criado o controlador da rota login e sua rota de POST
+
+    2. Recebendo os parâmetros de usuário e senha
+        -Recebido os params via Request
+        -Aplicado o old() na view e a variável $errors
+        -Feito o validate() para incorporar a variável $errors
+
+    3. Validando a existência do usuário e senha no Banco de Dados
+        -Recuperamos as infromações dos params recebidos via Request
+        -Feita uma query para buscar um usuário que tivesse um email e senha iguais aos passados via Request
+        -Usado métodos para COLLECTION
+
+    4. Redirect com envio de parâmetros - Apresentando mensagem de erro de login
+        -redirect com envio de parametro de erro ao passar algum dado errado
+        -Na verificação da action autenticar() caso não haja retorno de uma chave 'nome' o site será redirecionado para a mesma pagina
+            porém via get e passando também um param carregando um valor de erro, via route()
+            Esse param deve ser recebido na rota de maneira opcional /{erro?} e será lido no método index de site.login
+            Verificando a existência desse erro, fazendo o tratamento e o enviando para a view para ser exibido.
+
+            MÉTODO GET() IRÁ RETORNAR OS PARAMS ENVIADOS VIA HTTP, SEJA GET SEJA POST
+
+    5. Iniciando a Superglobal Session e validando o acesso a rotas protegidas
+        - no método autenticar() ao passar na verificação iremos abrir a sessão e definir as chaves de email e nome que terão os valores
+            trazidos dos atributos resultantes da query feita
+            Após isso é feito o Redirecionamento para app/clientes, que irá antes passar pelo middleware
+            o middleware irá verificar a existência da sessão que caso não exista enviará erro 2 que significará necessidade de estar logado
+           Verificar SEMPRE QUE TENTAREM ENTRAR DIRETAMENTE NA ROTA O MIDDLEWARE FARÁ ESSA VERIFICAÇÃO
+                Deixando entrar nas rotas que possuem o AutenticacaoMiddleware ou redirecionando para o formulário de login com uma mensagem de erro com param
+
+    6. Implementando o menu de opções da área protegida da aplicação
+        -Desenvolvimento de um menu das rotas internas da navegação
+        -Nome das rotas autenticadas para o singular
+        -Rota /home e /sair - adicionadas
+        -Criados os controllers - Home/Cliente/Produto/fornecedor
+        -Criadas as actions de index()
+        -action sair() em LoginController
+        -Criadas as views de home, cliente, fornecedor, produto
+        -aplicados a componentização
+
+    7. Adicionando a função logout
+        -Ao entrarmos na rota de sair, iremos destruir a sessão e redirecionar para a rota index de SITE
+        -Ao tentar entrar de maneira forçada o middleware irá impedir pedindo para o usuário fazer login
+
+12. Finalizando o projeto Super Gestão
+
+    1. Implementando o cadastro de fornecedores parte 1
+        -Criadas as rotas de fornecedores
+        -Implementado o controller de Fornecedor, com novos métodos -   editar() listar()
+        -Criadas as views para fornecedores e feita uma pasta para elas
+
+    2. Implementando o cadastro de fornecedores parte 2 (inclusão de registros)
+        -Fazendo a regra de negócio para inserir novos fornecedores no DB
+        -Método adicionar()
+
+        NÃO ESQUECER DO CSRF NOS formulários DE POST
+
+        -Só faremos o cadastro na presença do -token csrf
+        -Feita a validação dos dados recebidos
+        Verificar -Não esquecer de dar use no model quando quisermos utiliza-lo em algum controller
+
+        -Implementado os métodos first(), has(), old() e a variável $errors
+
+    3. Implementando o cadastro de fornecedores parte 3 (pesquisa de registros)
+        -no método listar() de fornecedoresController
+        -Realizado o foreach na view listar
+        -CRIADA UMA TABELA PARA MOSTRAR OS DADOS
+
+    4. Implementando o cadastro de fornecedores parte 4 (atualização de registros)
+        -EDITANDO REGISTROS
+        -Aplicada a rota ao botao de editar
+        -Criada a rota GET de edição de fornecedores
+        -Criado o método de editar()
+        -Enviado o id através da view listar ao clicar em editar
+        -Recebido o id na rota e na action
+        -Recuperando o fornecedor via find()
+        -Utlizada a view de adicionar para editar também
+        -Criado um input hidden com o id do fornecedor
+        -Trabalhado o value dos inputs usando ternário default ??
+
+        NORMALMENTE É BOM UTILIZAR A MESMA VIEW PARA ADICIONAR ITENS E EDITAR ITENS
+
+        {{$fornecedor->nome ?? old('nome') }}       /       Não irá interferir no adicionar o old na primeira requisição sempre vai vazio
+
+        -Refactoring de adicionar() para também fazer a edição
+        -Após atualizados chamada a rota com redirect para a rota de editar enviando a msg e o id através da rota também na query param
+        -as informações serão listadas novamente na view de adicionar
+        -Refactoring de editar() para enviar a msg para a view
+
+    5. Paginação de registros   /   paginate()
+        -Aplicada a paginação de resultados no método listar() para aparecer tantos resultados por página
+        -No lugar do get() iremos colocar o paginate(2) e por param iremos passar o n° de resultados que quremos em cada página
+        -Também é necessário usar o método links() que foi obitido na resposta devido o método paginate
+        -{{$fornecedores->links()}} -> método que irá mostrar os paginadores
+        - Esses paginadores são apenas links que entrarão na mesma rota, entao foi necessário criar uma rota listar get
+        - A estrutura é composta por ul e li e sua classe pai é pagination, enfim é possível estilizar o paginador, além de uma classe active ao item ativo
+        Verificar -Sempre que trocarmos para outro paginador os parametros originais do filtro serão perdidos, trazendo um all()
+                Para resolvir isso precisamos encaminhar junto o param de $request->all()
+                Na view usar o método appends($request) passando o $request da view como param
+
+    6. Paginação de registros - Métodos count(), total(), firstItem() e lastItem()
+        -Visto como utiliazar métodos do paginator que irão fornecer informações sobre as páginas
+        count() Total de registros por página
+        total() Total de registros da consulta
+        firstItem() Número do primeiro registro da página
+        lastItem() Número do último registro da página
+
+        Necessário manter a linha com o método appends() presente
+
+        -MOSTRADO A DOC A RESPEITO DOS MÉTODOS DE PAGINATE
+
+    7. Implementando o cadastro de fornecedores parte 5 (remoção de registros)
+        -Exclusão de registros através do id
+        -Iremos enviar o id via view, para a rota em que o método irá obter esse registro e apagar
+
+        -Id enviado pela view de listar
+        -nova rota de exclusão get criada
+        -método de excluir criado
+        -Redirecionamento para a rota de app.fornecedor
+
+
+    8. Controladores com resources
+        -Visto como criar controllers com uma estrutura de métodos ja criada - estrutura que segue o padrão Laravel
+            index() = Exibi  lista de registros
+            create() = Exibi o form de criação de registro
+            store() =   recebe o formulário de criação de registro
+            show() =    Exibi um registro específico
+            edit() =    Exibi form de edição de registro
+            update() =  Recebe o form de edição de registro
+            destroy() = Recebe dados para remoção de registro
+
+            Criada um novo controller para produtos junto de um model
+
+            php artisan make:controller -resource ProdutoController --model=Produto
+
+
+    9. Criando rotas associadas aos resources de um controlador
+        -Criando rotas que tenham ligação aos métodos criados via resource
+        -Visto como seguir as boas práticas de criação de rotas através de resources
+        Route::resource("produto", "ProdutoController");    /   ("URL", "ControllerComResource");
+
+        Basta criar essa rota e todas as outras serão montadas a partir dela e poderão ser vista no route:list
+        Cada rota com seu devido verbo e método do controller criado via resource
+
+    10. Entendo os métodos HTTP Get, Post, Delete, Put e Patch
+        -Get - Recuperar dados
+        -Post - Persistir dados
+        -Delete - Remover dados
+        Put e Patch - Atualizar dados
+
+    11. Implementando o cadastro de produtos parte 1 (index)
+        -Copiados o método listar() de fornecedor para o método index() de ProdutoController
+        O PAGINATE SERVE TAMBÉM PARA BUSCAR DADOS
+        -Criada a view para exibir registros dos produtos
+        -Setado os atributos do obj corretamente
+        -Usado os links de paginate()
+
+        -NECESSÁRIO ALTERAR A ROTA DE PRODUTOS NO PARTIALS DEVIDO SEU APELIDO   /   produto.index
+
+        -Criado o model de Unidade, para inserção de unidades na tabela NÃO ESQUECER DO 1 TO MANY COM PRODUTOS E PRODUTO_DETALHES
+        -Configurado o model Produto
+
+    Criada uma unidade de medida e produto, via tinker
+
+    12. Implementando o cadastro de produtos parte 2 (create)
+        -Implementação do form e método de create() de ProdutoController - Método responsável apenas por mostrar o form
+        -Select criado devido a coluna de relacionamento 1 to many que irá mostrar as options dinamicamente
+        -Envio dos dados das unidades para a view, para ser usado no Select
+
+    13. Implementando o cadastro de produtos parte 3 (store)
+        -Método store()
+        -Aplicado a route('produto.store') na action do form de create.
+        -No método store() apenas salvamos os params recebidos no model de Produto e redirecionamos para a route('produto.index') Pois essa rota ja faz o trabalho de dar select em all()
+
+    14. Implementando o cadastro de produtos parte 4 (validando dados)
+        -Criando a validação dos dados
+        -O campo unidades_id será sempre montado através do db de unidades, mas para garantir que de fato seja um id válido para que a relação 1 to any funcione
+            faremos a validação de valor inserido existente na tabela de unidades
+
+            "unidade_id" => "exists:unidades,id"    // validação para verificar se o valor inserido existe na tabela de unidades
+
+            com isso mesmo que o id seja alterado no front, terá de existir na coluna id da tabela unidades
+
+        -O validate irá verificar todo o request e entao salvar as informações
+
+        o método old no select verifica se o valor anterior é o mesmo sendo recebido e se sim irá dar selected nele
+
+    15. Implementando o cadastro de produtos parte 5 (show)
+        -Implementação do método show() via get
+        -Por padrão está rota espera um {produto} ou id, para dar o select nessa informação
+        -Criada o link Visualizar na view produto.index que irá puxar o método show() enviando o id do produto
+
+        -O MÉTODO SHOW ENTRE OUTROS, CRIA UM OBJ DO TIPO DA MODEL QUE FOI CRIADA JUNTO DO CONTROLLER RESOURCES
+            MÉTODOS ASSIM AUTOMATICAMENTE FAZEM UM FIND() NA MODEL IGUAL AO TIPO DE OBJ, UTILIZANDO O PARAM DE ID INFORMADO
+        -Encaminhado os dados do produto para a view show
+
+    16. Implementando o cadastro de produtos parte 6 (edit)
+        -Rota: produto/{id}/{edit}
+        -Implementação do método edit()
+        -Iremos ver como utilizar o mesmo form de create para edit / 2 forms diferentes e usar o form como componente em cada uma das 2 views
+        -Atualizada a view de index, passando a rota para o botar de editar
+        -Na view os inputs são tratados com default ternário, pois como é um upadate ou vai receber os valores recebidos da action ou irá mostrar os valores de old()
+            Lembrando q de inicio o old() é vazio
+
+        -Passadas as informações de unidades para a view também
+
+    17. Implementando o cadastro de produtos parte 7 (update)
+        -Implementado do método update()
+        -Verbos put e patch /   o put faz uma atualização de todos os atributos do obj  /   o patch faz apenas de alguns atributos
+        -na view de editar, colocamos a action para route('produto.update'), ['produto' => $produto->id] enviando o param de id
+        -Usaremos o verbo PUT para uma atualização completa
+        @method("PUT") / Para o servidor identificar como uma atualização
+        -Aplicando o método de update() sobre o produto recebido $produto->update()
+        -Após redirecionando para produto.show com o id, para mostrar o produto em questão
+
+    18. Implementando o cadastro de produtos parte 8 (delete)
+        -Verbo delete
+        -Implementação do método destroy()
+        -Na view de index, no botao de Excluir foi preparado especificamente para o verbo DELETE
+        -redirecionado para o index()
+
+
+    19. Modificando a forma de edição de registros parte 1
+        -Nesta aula iremos usar a mesma view para edit() e create() de produtos
+        -FEITA VERIFICAÇÃO PARA SABER QUAL MÉTODO http usar e qual método (update ou store)
+
+    20. Modificando a forma de edição de registros parte 2
+        -Nesta aula transformamos o form de edit e create em um componente, apenas o puxando para dentro de cada view
+        -Até aqui foi visto como utilizar o mesmo form para update e store, forms diferentes e o mesmo form, porém como componente
+
+    21. Relacionamentos 1x1, 1xN e NxN com Eloquent ORM
+        -
+
+    22. Eloquent ORM 1 para 1 - Implementando produto detalhes parte 1
+        -Criação do model ProdutoDetalhe
+        -Criação do ProdutoDetalheController via --resource
+        -Criação da rota utilizando o método resource
+        -Criação das 1°s views
+
+    23. Eloquent ORM 1 para 1 - Implementando produto detalhes parte 2
+        -Implementado os métodos create() e store()
+        -Conexão com as views
+        -views tratadas e componente, para mostrar as informações de produto_detalhes
+
+    24. Eloquent ORM 1 para 1 - Implementando produto detalhes parte 3
+        -Implementação do método edit() e update()
+        -No ProdutoDetalheController como não criamos ele junto do model, os métodos que esperariam um param de respectivo obj, nõ foram pegos
+            no caso de edit() iremos usar um obj de tipo ProdutoDetalhe como param, posto manualmente
+        -Chamada a view e passados os params para a view
+        -update() arrumado.
+
+        TODO parou aqui
+
+    25. Eloquent ORM 1 para 1 - Exibindo os detalhes do produto
+        -Trazendo informações de produto_detalhes para a view de produtos através do relacionamento entre tabelas
+        -Alteração na view de produto.index
+        Verificar ENSINADO COMO MOSTRAR OS DADOS DE UMA RELAÇÃO 1 TO 1 ATRAVÉS SEM O USO DO ORM NA ACTION INDEX DE PRODUTO TRAZENDO INFORMAÇÕES DA TABELA PRODUTO_DETALHES
+
+        foreach($produtos as $key => $produto) {
+            //print_r($produto->getAttributes());
+            //echo '<br><br>';
+
+            $produtoDetalhe = ProdutoDetalhe::where('produto_id', $produto->id)->first();
+            //collection ProdutoDetalhe
+            //ProdutoDetalhe
+            if(isset($produtoDetalhe)) {
+                //print_r($produtoDetalhe->getAttributes());
+
+                $produtos[$key]['comprimento'] = $produtoDetalhe->comprimento;
+                $produtos[$key]['largura'] = $produtoDetalhe->largura;
+                $produtos[$key]['altura'] = $produtoDetalhe->altura;
+            }
+            //echo '<hr>';
+
+            Dentro do laço:
+                Primeiro pegou-se todos os produtos e sua key
+                feita pesquisa de produtoDetalhe onde a coluna produto_id tivesse o mesmo id do produto daquele laço
+                Caso trouxesse resultados os atributos de produto do produto do respectivo laço foram preenchidos com os valores do obj de ProdutoDetalhe
+
+    26. Eloquent ORM 1 para 1 - Estabelecendo relacionamento 1x1 (hasOne)
+        -Relacionamento 1x1 através do Eloquent ORM método hasOne()
+        -Acessa o modelo da tabela mais forte da relação - Produto
+        -Criada função no model Produto para obter os dados de ProdutoDetalhe
+            A função por padrão irá pegar o nome da model em que a mesma está, mais a primary key, para identificar a FK
+            Nesse caso será produto_id
+
+            Método utilizado no model da tabela que envia sua FK
+
+    27. Eloquent ORM 1 para 1 - Exibindo informações do produto (belongsTo)
+        -método belongsTo() Usado para trazer os dados da tabela mais forte em um contexto em que estamos puxando os dados da tabela mais fraca
+        -Irá buscar o model que envia sua fk
+
+        Método usado no model da tabela que recebe a fk
+
+    Verificar COMEÇAR A APLICAR ESSA FORMA PARA GARANTIA
+    28. Eloquent ORM 1 para 1 - Utilizando hasOne e belongsTo com nomes não padronizados
+        -Veremos nesta aula como utilizar o hasOne() e o belongsTo() em situações que o laravel terá o nome de suas tabelas diferente do das models
+        -Esse processo foi feito adicionando 2 params novos aos métodos que irão especificar esta relação
+
+        Por padrão o laravel leva em consideração o nome dos models como parte do nome das FK nos relacionamenos
+            nomeDoModel_nomePrimaryKey = Nome padrão
+        Porém haverá momentos em que o nome da model será diferente da FK e por isso será necessário passar mais 2 params nos métodos de relacionamento que serão o nome da coluna da fk e o nome da coluna da primary key da tabela pai
+
+    Verificar 29. Extra - Lazy Loading vs Eager Loading parte 1
+        POSSÍVEL DIFERENÇA NA HORA DE USAR API
+        -Lazy Loading- Esse é o modo padrão de carregamento de dados nas views do Laravel / Carregamento lento
+            Ele não envia os dados de tabelas relacionadas no obj enviado para a view,  é necessário invocar o método de relacionamento
+            Ao verificarmos os dados recebidos na view nota-se que o obj não possui os dados da tabela de relacionamento, é necessário chamar o método ao menos uma vez
+
+        -Eager Loading - Envia desde o Controller os dados de tabela relacionadas ao obj, através do método with() / Carregamento ansioso
+
+    30. Extra - Lazy Loading vs Eager Loading parte 2
+
+
+    31. Eloquent ORM 1 para N - Criando o relacionamento entre Fornecedor e Produto
+        -Criada relação de 1 X many entre Fornecedores e Produto
+        -1 fornecedor pode ter vários produtos
+        -Criada migration para criar a FK em produtos (fornecedor_id)
+        -Aplicada um valor default aos fornecedores por Enquanto
+
+    32. Eloquent ORM 1 para N - Exibindo informações do fornecedor (belongsTo)
+        -No model Fornecedor Produto criado o método belongsTo() usando o Lazy Loading dentro de função e aplicado na view index de produtos, para dizer o fornecedor daquele produto
+
+    33. Extra - Exibindo mais informações do fornecedor
+        -Aplicado o Eager Loading na relação Fornecedor>Produto
+
+    34. Eloquent ORM 1 para N - Estabelecendo relacionamento 1xN (hasMany)
+        -Método de model, hasMany()
+        -Um Fornecedor pode ter vário Produto
+        -Aplicado o método hasMany()
+        -Usado Eager Loading
+        -Aplicado a view de listar em Forcedores
+
+        FATO: para relação 1 X 1 => hasOne() Tabela mais forte  /   belongsTo() Tabela mais fraca
+              Relação 1 X many => belongsTo() Tabela mais fraca   /   hasMany() Tabela mais forte
+
+              TODO rever o esquema acima
+
+    35. Eloquent ORM 1 para N - Associando fornecedores a produtos (Store e Update)
+        -implementar a iclusão de fornecedor no cadastro de produtos
+        -no FORM de edit iremos acrescentar um campo para fornecedor
+        -Enviar do controller o obj de fornecedores de edit() e Create()
+        -Método update() validando os dados de fornecedor recebido
+        -Acrescentado o novo atributo de fornecedor no Model
+        -Feito o validate também em update()
+        -Feita validação de fornecedor_id também no método store
+
+        métodos de store e update, funcionando e acrescentando fornecedores
+
+    36. Eloquent N para N - Implementando os requisitos para o relacionamento
+        -Faremos uma relação de N to N entre produtos e pedidos gerando a model e tabela PedidoProduto
+        -Relação 1 to N entre clientes e pedidos
+        -Criadas as models Cliente, Pedido e PedidoProduto
+        -Criada migration para criar as tabelas das models
+        -$table em PedidoProduto para ser igual a tabela criada na migration
+
+
+    37. Criando os controladores e rotas para clientes, pedidos e pedidos produtos
+        -Criados os controladores de Cliente, Pedido e PedidoProduto, utilizando resources:
+        -Criadas as rotas via recurso de resouce:
+
+    38. Implementando a tela de listagem de clientes
+        -Implementado método index de ClienteController enviando os dados de clientes e o Request->all() para o paginate funcionar
+
+    39. Implementando a tela de cadastro de clientes    /   ClienteController
+        -Rota de "Novo Cliente"
+        -Feita a view de create dentro das views de cliente
+        -Chamada no controller de create()
+        -Feita validação dos dados de novo cliente
+        -Cliente salvo
+
+    40. Implementando a tela de listagem de pedidos   /   ClienteController
+        -Acrescentado o link para pedidos
+        -Criada as views de listagem de pedidos
+        -Implementação do método index() no controller
+
+    41. Implementando a tela de cadastro de pedidos
+        -Criada a view de create.blade e enviado dados dos clientes para relacionamento
+        -Implementado os métodos create() e store()
+
+    42. Implementando a tela de cadastro de produtos para um determinado pedido parte 1
+        -Criando produtos relacionados a pedidos
+        -Não será mais usada as rotas resource para pedido-produto, para as rotas de create e store criadas as rotas manualmente para passar
+            como parâmetro o id do produto e do pedido em questão
+        -Na tela de pedidos foi criado um link para acessar cada pedido para que seja feito o cadastro dos produtos
+        -Criada a view de create de pedido-produto
+        -Mostrados os dados de cada pedido, id e cliente_id
+        -Criado o formulário que envia para a rota de store o id do pedido
+
+        TODO parou aqui
+
+
+
+
+
