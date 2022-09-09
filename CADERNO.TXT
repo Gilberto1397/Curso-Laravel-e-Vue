@@ -1089,9 +1089,20 @@ Ex: whereIn("id",[1,2])->update(["COLUNA" => "VALOR"]) / Neste caso os 2 objetos
         -Mostrados os dados de cada pedido, id e cliente_id
         -Criado o formulário que envia para a rota de store o id do pedido
 
+    43. Eloquent ORM N para N - Implementando o relacionamento belongsToMany
+        -Iremos organizar o método store() para salvar na tabela pedidos_produtos
+        -Mostrar os dados dos produtos de cada pedido na view de create
+            -Criado o método produtos com relacionamento belongsToMany na model PedidoProduto
+      TODO  -Feito o relacionamento levando em considerção a ortografia padrão que o laravel considera
+            -Para montar o método foi passado a Model que faz parte do relacionamento e a tabela auxiliar para o many to many
+
+        -Para casos de nomes não padronizados é necessário informar mais 2 parametros no Relacionamento
+            -a coluna que referência na tabela auxiliar, o model portador do método de relacionamento
+            -por último a coluna que referência na tabela auxiliar, o model passado como 1º parametro no método de relacionamento
+
+        -Feito o foreach para abrir o objeto e através do relacionamento obter os dados dos produtos
+
         TODO parou aqui
-
-
 
 
 
