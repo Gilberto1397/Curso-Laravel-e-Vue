@@ -1102,7 +1102,48 @@ Ex: whereIn("id",[1,2])->update(["COLUNA" => "VALOR"]) / Neste caso os 2 objetos
 
         -Feito o foreach para abrir o objeto e através do relacionamento obter os dados dos produtos
 
-        TODO parou aqui
+    44. Eloquent ORM N para N - Praticando um pouco mais o relacionamento belongsToMany
+        -Nesta aula iremos mostrar dados dos pedidos na view index de produtos
+        -Faremos através do relacionamento belongsToMany em Produto Model
+        -Criado um link que em cada produto para levar até o pedido relacionado
+
+TODO REVER AS SITUAÇÕES VISTAS A RESPEITO DOS PADRÕES ORTOGRÁFICOS DO LARAVEL
+
+    45. Relacionamento N para N - Colunas pivô da tabela de relacionamento (Pivot)
+        -No relacionamento any para any temos o campo pivot que é o atributo que armazena os campos trazidos ao se usar o relacionamento any pra any (belongsToMany)
+
+        TODO No relacionamento any to any ao usarmos o belongsToMany iremos dizer que queremos acessar os dados salvos na coluna auxiliar, porém por padrão só é possível acessar os dados relacionados as FK que compoes a tabela, nesse caso acessar ou pedido ou produto, colunas como created_at não é possível, para isso serve o pivot
+
+        é necessário acrescentar o método withPivot() no relacionamento e passar as colunas que deseja mostrar.
+        Para acessar entrar no atributo ->pivot e chamar o atributo desejado
+
+    46. Relacionamento N para N - Inserindo registros por meio do relacionamento
+        -Forma alternativa de persistencia dos dados na tabela auxiliar de any para any
+        -Não será necessário utilizar o Model PedidoProduto para o store()
+        -Iremos adicionar mais um campo na tabela pedidos_produtos, campo de quantidade
+        -Criada migration para isso
+        -Usado o método attach() para fazer a persistência a partir do método de relacionamento
+
+    47. Relacionamento N para N - Removendo o relacionamento
+        -Remoção dos registros da tabela pedidos_produtos sem uso do Model e sim o método de relacionamento junto do método detach()
+        -Criada a estrutura de delete na view
+        -Visto a forma de delete CONVENCIONAL utilizando where()
+
+
+    48. Extra - Removendo o relacionamento pela PK de pedidos_produtos
+        -Iremos excluir o registro de acordo com a primary key ID da tabela pedidos_produtos, obtido através do campo Pivot
+        -Refactor da view create de PedidoProduto
+
+
+
+
+
+
+
+COISAS PARA APERFEIÇOAR NO PROJETO
+    -ACRESCENTAR NA TABELA DE PEDIDO A QUANTIDADE DE CADA PRODUTO
+    -IMPLEMENTAR DEMAIS ROTAS DE PEDIDO E CLIENTE
+    -MELHORAR A TABELA NA VIEW FORNECEDOR/LISTAR
 
 
 

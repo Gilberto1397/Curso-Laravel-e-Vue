@@ -41,11 +41,13 @@ class PedidoProdutoController extends Controller
     public function store(Request $request, Pedido $pedido)
     {
         $regras = [
-            "produto_id" => "exists:produtos,id"
+            "produto_id" => "exists:produtos,id",
+            "quantidade" => "required"
         ];
 
         $feedback = [
-            "produto_id.exists" => "O produto informado não existe"
+            "produto_id.exists" => "O produto informado não existe",
+            "required" => "O campo :attribute é obrigatório"
         ];
 
         $request->validate($regras, $feedback);
@@ -53,9 +55,10 @@ class PedidoProdutoController extends Controller
         $pedidoProduto = new PedidoProduto();
         $pedidoProduto->pedido_id = $pedido->id;
         $pedidoProduto->produto_id = $request->get("produto_id");
+        $pedidoProduto->quantidade = $request->get("quantidade");
         $pedidoProduto->save();
 
-        return redirect()->route("app.pedido-produto.create", ["pedido" => $pedido->id]);
+        return redirect()->route("app.pedido-produto.create", compact("pedido"));
     }
 
     /**
@@ -98,8 +101,21 @@ class PedidoProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(PedidoProduto $pedidoProduto, $pedido_id)
     {
-        //
+        /* print_r($pedido->getAttributes());
+        echo "<hr>";
+        print_r($produto->getAttributes()); */
+
+        /* PedidoProduto::where([
+            "pedido_id" => $pedido->id,
+            "produto_id" => $produto->id,
+        ]); */
+
+        $pedidoProduto->delete();
+
+        $pedido = $pedido_id;
+
+        return redirect()->route("app.pedido-produto.create", compact("pedido"));
     }
 }
