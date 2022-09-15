@@ -9,7 +9,7 @@
 <br>
 <div class="conteudo-pagina">
     <div class="titulo-pagina-2">
-        <p>Adicionar Pedido</p>
+        <p>Visualizar Pedido</p>
     </div>
 
     <div class="menu">
@@ -20,13 +20,13 @@
     </div>
 
     <div class="informacao-pagina">
-        {{-- {{$msg ?? ""}} --}}
         <div style="width: 30%; margin: auto;">
-
-            @component("app.pedido._componentes.form_create_edit", ["clientes" => $clientes, "pedido" => $pedido])
-
-            @endcomponent
-
+            <table border="1" width="100%">
+                <tr>
+                    <td>Cliente:</td>
+                    <td>{{$pedido->cliente->nome}}</td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

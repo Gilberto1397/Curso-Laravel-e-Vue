@@ -1,0 +1,15 @@
+Padrões ortográficos de detecção do laravel e Dicas de escrita no Laravel
+
+    -Optar por nomear MODELS nome no singular
+    -Opatar por nomes no plural para as migrations
+    -A model do laravel irá por padrão buscar uma tabela com o nome da respectiva model com S no fim, caso esteja errado é necessário ajustar a variável $table
+
+    Ao criar uma migration no mesmo comando da MODEL o laravel irá sempre acrescentar um "S" no fim
+
+    -Para FKs normalmente iremos usar como nome o nome da tabela referenciada + Underline + nome da sua Primary Key
+        O Laravel irá detectar esse formato por padrão
+
+    Os métodos de relacionamento como belongsTo, etc possuem um padrão, porém quando o padrão de nomes e tabelas não é respeitado é necessário especificar tais métodos
+
+
+-Tipar parametros na função de acordo com um model o parametro deve ter o mesmo nome que o recebido na url criada através do método resource

@@ -23,7 +23,7 @@
         {{-- {{$msg ?? ""}} --}}
         <div style="width: 30%; margin: auto;">
 
-            @component("app.cliente._componentes.form_create_edit")
+            @component("app.cliente._components.form_create_edit", ["cliente" => $cliente])
 
             @endcomponent
 

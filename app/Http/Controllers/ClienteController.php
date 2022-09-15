@@ -28,7 +28,9 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view("app.cliente.create");
+        $cliente = "";
+
+        return view("app.cliente.create", compact("cliente"));
     }
 
     /**
@@ -59,12 +61,12 @@ class ClienteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Cliente  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Cliente $cliente) // Mesmo nome da parâmetro que o da rota
     {
-        //
+        return view("app.cliente.show", compact("cliente"));
     }
 
     /**
@@ -73,9 +75,9 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cliente $cliente)
     {
-        //
+        return view("app.cliente.create", compact("cliente"));
     }
 
     /**
@@ -85,9 +87,23 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Cliente $cliente)
     {
-        //
+        $regras = [
+            "nome" => "required|min:3|max:40",
+        ];
+
+        $feedback = [
+            "required" => "O campo :attribute deve ser preenchido",
+            "min" => "O campo :attribute deve ter no min 3 caracteres",
+            "max" => "O campo :attribute deve ter no max 40 caracteres",
+        ];
+
+        $request->validate($regras, $feedback);
+
+        $cliente->update($request->all());
+
+        return redirect()->route("app.cliente.index");
     }
 
     /**
@@ -96,8 +112,10 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CLiente $cliente)
     {
-        //
+        $cliente->delete();
+
+        return redirect()->route("app.cliente.index");
     }
 }

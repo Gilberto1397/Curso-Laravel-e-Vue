@@ -1,4 +1,4 @@
-@if (isset($pedido->id))
+@if (isset($pedido->cliente->id))
     <form action="{{ route('app.pedido.update', ['pedido' => $pedido->id]) }}" method="post">
         @method('PUT')
     @else
@@ -11,14 +11,10 @@
     <option>-- Selecione um Cliente --</option>
 
     @foreach($clientes as $cliente)
-        <option value="{{ $cliente->id }}" {{ ($pedido->cliente_id ?? old('fornecedor_id')) == $cliente->id ? 'selected' : '' }} >{{ $cliente->nome }}</option>
+        <option value="{{ $cliente->id }}" {{ ($pedido->cliente->id ?? old('cliente_id')) == $cliente->id ? 'selected' : '' }} >{{ $cliente->nome }}</option>
     @endforeach
 </select>
-{{ $errors->has('fornecedor_id') ? $errors->first('fornecedor_id') : '' }}
+{{ $errors->has('cliente_id') ? $errors->first('cliente_id') : '' }}
 
-
-{{-- <input class="borda-preta" type="text" name="nome" placeholder="Nome" value="{{ $pedido->nome ?? old('nome') }}">
-{{ $errors->has('nome') ? $errors->first('nome') : '' }} --}}
-
-<button class="borda-preta" type="submit">Cadastrar</button> {{-- Pode mudar de acordo com a requisição --}}
+<button class="borda-preta" type="submit">{{isset($pedido->cliente->id) ? "Atualizar" : "Cadastrar"}}</button>
 </form>

@@ -67,9 +67,9 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Pedido $pedido)
     {
-        //
+        return view("app.pedido.show", compact("pedido"));
     }
 
     /**
@@ -78,9 +78,11 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Pedido $pedido)
     {
-        //
+        $clientes = Cliente::all();
+
+        return view("app.pedido.create", compact("clientes", "pedido"));
     }
 
     /**
@@ -90,9 +92,23 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Pedido $pedido)
     {
-        //
+        $regras = [
+            "cliente_id" => "exists:clientes,id",
+        ];
+
+        $feedback = [
+            "exists" => "O cliente informado não existe",
+        ];
+
+        $request->validate($regras, $feedback);
+
+        $pedido->cliente_id = $request->get("cliente_id");
+
+        $pedido->update();
+
+        return redirect()->route("app.pedido.index");
     }
 
     /**

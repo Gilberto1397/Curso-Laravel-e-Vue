@@ -23,8 +23,7 @@ CURSO DE LARAVEL
     -Primeiros controller feitos com funções simples de echo
 
 8. Super Gestão - Implementando as visualizações principal, sobre-nos e contato
-    -Ao vincularmos uma view ao controller através do método view() o framework sabe que deve iniciar suas buscas em
-    s->views
+    -Ao vincularmos uma view ao controller através do método view() o framework sabe que deve iniciar suas buscas em views
         bastando indicar os diretórios e arquivos internos a esta
 
 6. Avançando com Rotas (Routes)
@@ -37,7 +36,6 @@ CURSO DE LARAVEL
         Route::get('/contato/{nome}/{idade?}', function ($nome, $idade = 20) {return "Contato para: ". $nome . $idade;});
 
         - SINAL DE ? PASSADO JUNTO DO PARAM NA URL E VALOR OPCIONAL PASSADO DENTRO DA FUNÇÃO
-            POR NA URL PRIMEIRO OS PARÂMETROS OBRIGATÓRIOS, DEPOIS OPCIONAIS, DEPOIS NULOS
 
     3. Tratando parâmetros de rotas com expressões regulares
         -Iremos dar condições especificas aos parâmetros e a rota só vai ser acessada se passarmos parâmetros que se enquadrem nessas condições
@@ -72,7 +70,6 @@ CURSO DE LARAVEL
     1. Encaminhando parâmetros da rota para o controlador
         -encaminhamos os parâmetros sem o $
         -Obtidos no controller apenas declarando parâmetros na função respectiva e na mesma ordem.
-        -Calculos necessitam ser entre ()
 
     2. Encaminhando parâmetros do controlador para visualização
         -Encaminhamos para as views através de um array assoc, mas também é possível através do método compact() que irá dentro de view()
@@ -267,7 +264,7 @@ CURSO DE LARAVEL
 
     1 PARA VÁRIOS, É A MESMA COISA, PORÉM PERMITI A REPETIÇÃO DO ID(FK) RECEBIDO NA COLUNA QUE RECEBERÁ O FK
 
-    MANY PARA MANY, REQUER UMA 3° TABELA PARA MAIOR CONTROLE DE 2 OU MAIS FKs. NESSA 3° TABELA É QUE FICARAM DE FATO ARMAZENADAS AS RELAÇÕES.
+    MANY PARA MANY, REQUER UMA 3° TABELA PARA MAIOR CONTROLE DE 2 OU MAIS FKs. NESSA 3° TABELA É QUE FICARÃO DE FATO ARMAZENADAS AS RELAÇÕES.
 
     AS QUERYS SERÃO FEITAS MUITAS VEZES VIA BACKEND POR EXEMPLO VIA MIGRATION, MAS PARA DE FATO CRIARMOS UMA RELAÇÃO DEVEMOS USAR O MÉTODO CORRETO SEJA VIA QUERY OU BACKEND,
         POIS O MYSQL IRÁ DE FATO FAZER AS MUDANÇAS NECESSÁRIAS PARA DEPOIS CONSEGUIR FILTRAR DA MANEIRA CORRETA
@@ -298,7 +295,6 @@ CURSO DE LARAVEL
         -A PRINCIPAL DIFERENÇA DE 1 PRA 1 É QUE 1 PRA MUITOS NÃO HAVERÁ O MÉTODO UNIQUE()
         -AQUI A CHAVE ESTRANGEIRA DE CARDINALIDADE "UM" IRÁ PARA AS TABELAS DE CARDINALIDADE "ANY"
         -A CHAVE PRIMÁRIA DE UNIDADES IRÁ VIAJAR PARA TODAS AS TABELAS EM QUE A MESMA UNIDADE SEJA USADA POR MAIS DE UM ITEM NA TABELA
-            EX: EU POSSO TER VARIOS CARROS E MOTOS - A FK PODERIA SER MEU NOME
 
         NÃO ESQUECENDO DO PADRÃO DE ESCRITA
 
@@ -352,7 +348,7 @@ CURSO DE LARAVEL
                 Verificar QUANDO O NOME NO PLURAL ESTIVER DANDO ERRO DEVEMOS USAR O SEGUINTE CÓDIGO NO MODEL
                      protected $table = 'fornecedores'; / PROPRIEDADE $TABLE COM O RESPECTIVO NOME DA TABELA
 
-        -Podemos passar os atributos a serem salvos no DB todos de uma vez em um array assoc sem a necessidade de passar um a um e depois chamr o método save()
+        -Podemos passar os atributos a serem salvos no DB todos de uma vez em um array assoc sem a necessidade de passar um a um e depois chamar o método save()
             Iremos passar o array assoc dentro do método estático create([])
                 mas para isso precisamos criar outra propriedade de model chamada $Fillable preenchida com um array dos atributos que serão salvos
                 esta propriedade que irá cuidar para que o processo de certo via create([])
@@ -542,7 +538,7 @@ Ex: whereIn("id",[1,2])->update(["COLUNA" => "VALOR"]) / Neste caso os 2 objetos
         -Visto com os métodos fill() e create() que receberão o request->all() e salvarão automaticamente
         -fill() apenas preenche os atributos do obj do model, mas precisa do save()
 
-        -NORMALMENTE O CREATE() IRÁ EXIGIR QUE AO MENOS AS COLUNAS DA TABELA TENHAM VALOR DEFAULT, O FILL() APENAS NULLABLE() BASTA
+        -NORMALMENTE O CREATE() IRÁ EXIGIR QUE AO MENOS AS COLUNAS DA TABELA TENHAM VALOR DEFAULT CASO NÃO ENVIEMOS TODOS OS ATRIBUTOS, O FILL() APENAS NULLABLE() BASTA
 
         - O MÉTODO QUE IREMOS UTILIZAR IRÁ DEPENDER DO TRATAMENTO PRÉVIO QUE TEREMOS QUE FAZER NAS INFORMAÇÕES
 
@@ -1141,9 +1137,10 @@ TODO REVER AS SITUAÇÕES VISTAS A RESPEITO DOS PADRÕES ORTOGRÁFICOS DO LARAVE
 
 
 COISAS PARA APERFEIÇOAR NO PROJETO
-    -ACRESCENTAR NA TABELA DE PEDIDO A QUANTIDADE DE CADA PRODUTO
     -IMPLEMENTAR DEMAIS ROTAS DE PEDIDO E CLIENTE
     -MELHORAR A TABELA NA VIEW FORNECEDOR/LISTAR
+    -FAZER ROTA DE CONSULTA PARA OS DEMAIS MODELS
+    -TREINAR MIGRATIONS COM FK COM ONDELETE, ONUPDATE, ETC
 
 
 
