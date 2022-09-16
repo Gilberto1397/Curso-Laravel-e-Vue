@@ -24,7 +24,7 @@ class CreateClientesPedidosProdutosTable extends Migration
             $table->unsignedBigInteger("cliente_id");
             $table->timestamps();
 
-            $table->foreign("cliente_id")->references("id")->on("clientes");
+            $table->foreign("cliente_id")->references("id")->on("clientes")->onDelete("cascade")->onUpdate("cascade");
         });
 
         Schema::create('pedidos_produtos', function (Blueprint $table) {
@@ -33,8 +33,8 @@ class CreateClientesPedidosProdutosTable extends Migration
             $table->unsignedBigInteger("produto_id");
             $table->timestamps();
 
-            $table->foreign("pedido_id")->references("id")->on("pedidos");
-            $table->foreign("produto_id")->references("id")->on("produtos");
+            $table->foreign("pedido_id")->references("id")->on("pedidos")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign("produto_id")->references("id")->on("produtos")->onDelete("cascade")->onUpdate("cascade");
         });
     }
 
