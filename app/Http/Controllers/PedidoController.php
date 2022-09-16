@@ -31,7 +31,9 @@ class PedidoController extends Controller
     {
         $clientes = Cliente::all();
 
-        return view("app.pedido.create", compact("clientes"));
+        $pedido = false;
+
+        return view("app.pedido.create", compact("clientes", "pedido"));
     }
 
     /**
@@ -117,8 +119,10 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Pedido $pedido)
     {
-        //
+        $pedido->delete();
+
+        return redirect()->route("app.pedido.index");
     }
 }

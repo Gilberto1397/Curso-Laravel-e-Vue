@@ -28,7 +28,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $cliente = "";
+        $cliente = false;
 
         return view("app.cliente.create", compact("cliente"));
     }

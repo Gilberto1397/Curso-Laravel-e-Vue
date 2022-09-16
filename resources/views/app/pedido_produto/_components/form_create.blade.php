@@ -13,9 +13,5 @@
 <input type="number" name="quantidade" value="{{old("quantidade") ? old("quantidade") : ""}}" placeholder="Quantidade" class="borda-preta" id="">
 {{ $errors->has('quantidade') ? $errors->first('quantidade') : '' }}
 
-
-{{-- <input class="borda-preta" type="text" name="nome" placeholder="Nome" value="{{ $pedido->nome ?? old('nome') }}">
-{{ $errors->has('nome') ? $errors->first('nome') : '' }} --}}
-
 <button class="borda-preta" type="submit">Cadastrar</button> {{-- Pode mudar de acordo com a requisição --}}
 </form>

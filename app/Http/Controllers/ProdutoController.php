@@ -139,4 +139,18 @@ class ProdutoController extends Controller
         $produto->delete();
         return redirect()->route("app.produto.index");
     }
+
+    public function busca(){
+        return view("app.produto.busca");
+    }
+
+    public function listar(Request $r){
+        $produtos = Produto::where("nome", "like", "%".$r->input("nome")."%")
+        ->where("descricao", "like", "%".$r->input("descricao")."%")
+        ->paginate(2);
+
+        $request = $r->all();
+
+        return view("app.produto.index", compact("produtos", "request"));
+    }
 }

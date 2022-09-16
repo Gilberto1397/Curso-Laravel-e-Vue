@@ -46,6 +46,8 @@ Route::prefix("/app")->name("app.")->middleware("autenticacao")->group(function(
     Route::get('/fornecedor/excluir/{id}/', "FornecedorController@excluir")->name("fornecedor.excluir");
 
     //produtos
+    Route::get('/produto/busca', "ProdutoController@busca")->name("produto.buscar");
+    Route::post('/produto/listar', "ProdutoController@listar")->name("produto.listar");
     Route::resource("produto", "ProdutoController");
 
     //produtos detalhes

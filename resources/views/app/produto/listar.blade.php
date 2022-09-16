@@ -1,6 +1,6 @@
 @extends("app.layouts.basico")
 
-@section("titulo", "Produto")
+@section("titulo", "Produtos")
 
 @section('content')
 
@@ -9,7 +9,7 @@
 <br>
 <div class="conteudo-pagina">
     <div class="titulo-pagina-2">
-        <p>Listagem de produtos</p>
+        <p>Produto - Listar</p>
     </div>
 
     <div class="menu">
@@ -26,13 +26,6 @@
                     <tr>
                         <th>Nome</th>
                         <th>Descrição</th>
-                        <th>Fornecedor</th>
-                        <th>Peso</th>
-                        <th>Unidade ID</th>
-                        <th>Comprimento</th>
-                        <th>Altura</th>
-                        <th>Largura</th>
-                        <th></th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -43,12 +36,6 @@
                         <tr>
                             <td>{{$produto->nome}}</td>
                             <td>{{$produto->descricao}}</td>
-                            <td>{{$produto->fornecedor->nome}}</td>
-                            <td>{{$produto->peso}}</td>
-                            <td>{{$produto->unidade_id}}</td>
-                            <td>{{$produto->produtoDetalhe->comprimento ?? ""}}</td>
-                            <td>{{$produto->produtoDetalhe->altura ?? ""}}</td>
-                            <td>{{$produto->produtoDetalhe->largura ?? ""}}</td>
                             <td>
                                 <form id="form_{{$produto->id}}" action="{{route("app.produto.destroy", ["produto" => $produto->id])}}" method="post">
                                     @method("DELETE")
@@ -60,29 +47,41 @@
                             <td><a href="{{route("app.produto.edit", ["produto" => $produto->id])}}">Editar</a></td>
                             <td><a href="{{route("app.produto.show", ["produto" => $produto->id])}}">Visualizar</a></td>
                         </tr>
-
                         <tr>
-                            <td colspan="12">
-                                <p>Pedidos</p>
-                                @foreach ($produto->pedidos as $pedido)
-                                    <a href="{{route("app.pedido-produto.create", ["pedido" => $pedido->id])}}"></a>
-                                Pedido: {{$pedido->id}}
-                                @endforeach
+                            <td colspan="6">
+                                Lista de Produtos
+                                <table border="1" style="margin: 20px;">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nome</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($fornecedor->produtos as $key => $produto)
+                                        <tr>
+                                            <td>{{$produto->id}}</td>
+                                            <td>{{$produto->nome}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            {{$produtos->appends($request)->links()}}
-            {{$produtos->count()}} - Total de registros por página
+
+            {{$fornecedores->appends($request)->links()}}
+            {{$fornecedores->count()}} - Total de registros por página
             <br>
-            {{$produtos->total()}} - Total de registros da consulta
+            {{$fornecedores->total()}} - Total de registros da consulta
             <br>
-            {{$produtos->firstItem()}} - Número do 1º registro da página
+            {{$fornecedores->firstItem()}} - Número do 1º registro da página
             <br>
-            {{$produtos->lastItem()}} - Número do último registro da página
+            {{$fornecedores->lastItem()}} - Número do último registro da página
             <br>
-            Exibindo {{$produtos->count()}} produtos de {{$produtos->total()}} de {{$produtos->firstItem()}} a {{$produtos->lastItem()}}
+            Exibindo {{$fornecedores->count()}} fornecedores de {{$fornecedores->total()}} de {{$fornecedores->firstItem()}} a {{$fornecedores->lastItem()}}
         </div>
     </div>
 </div>

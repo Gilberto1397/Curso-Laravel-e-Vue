@@ -26,6 +26,7 @@
                     <tr>
                         <th>ID Pedido</th>
                         <th>Cliente</th>
+                        <th>Quantidade de Produtos</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -37,10 +38,10 @@
                     @foreach ($pedidos as $pedido)
                         <tr>
                             <td>{{$pedido->id}}</td>
-                            <td>{{$pedido->cliente_id}}</td>
+                            <td>{{$pedido->cliente->nome}}</td>
+                            <td>{{count($pedido->produtos)}}</td>
                             <td><a href="{{route("app.pedido.show", ["pedido" => $pedido->id])}}">Visualizar</a></td>
                             <td><a href="{{route("app.pedido-produto.create", ["pedido" => $pedido->id])}}">Adicionar Produtos</a></td>
-                            {{-- <td><a href="{{route("app.pedido-produto.show", ["pedido" => $pedido->id])}}">Visualizar</a></td> --}}
                             <td>
                                 <form id="form_{{$pedido->id}}" action="{{route("app.pedido.destroy", ["pedido" => $pedido->id])}}" method="post">
                                     @method("DELETE")
